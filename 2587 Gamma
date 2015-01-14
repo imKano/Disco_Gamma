@@ -1,0 +1,98 @@
+#pragma config(Motor,  port2,           dtFrontRight,  tmotorVex393, openLoop)
+#pragma config(Motor,  port3,           dtFrontLeft,   tmotorVex393, openLoop)
+#pragma config(Motor,  port4,           belt,          tmotorVex393, openLoop)
+#pragma config(Motor,  port5,           hDrive,        tmotorVex393, openLoop)
+#pragma config(Motor,  port6,           armTop,        tmotorVex393, openLoop)
+#pragma config(Motor,  port7,           armBottom,     tmotorVex393, openLoop, reversed)
+#pragma config(Motor,  port8,           dtBackRight,   tmotorVex393, openLoop)
+#pragma config(Motor,  port9,           dtBackLeft,    tmotorVex393, openLoop)
+
+#pragma platform(VEX)
+#pragma competitionControl(Competition)
+#pragma autonomousDuration(20)
+#pragma userControlDuration(120)
+
+#include "Vex_Competition_Includes.c"
+
+void pre_auton()
+{
+
+}
+
+task autonomous()
+{
+	
+}
+
+task usercontrol()
+{
+  while(1 == 1)
+  {
+  	int rightStick = vexRT[Ch2]; 
+  	int leftStick = vexRT[Ch3]; 
+
+  	if(rightStick > 10 || rightStick < -10)
+  	{ 
+    	motor[dtFrontRight] = rightStick; 
+   		motor[dtBackRight] = rightStick;
+  	}
+  	else 
+  	{
+  		motor[dtFrontRight] = 0;  
+  		motor[dtBackRight] = 0;
+  	}
+
+  	if(leftStick > 10 || leftStick < -10){ 
+    	motor[dtFrontLeft] = leftStick; 
+   		motor[dtBackLeft] = leftStick;
+  	}
+  	else 
+  	{
+  		motor[dtFrontLeft] = 0;
+   		motor[dtBackLeft] = 0;
+  	}
+  	                       
+  	if(vexRT[Btn5U] == 1) 
+    {
+    	motor[armTop] = 127;
+    	motor[armBottom]=-127;
+    }
+    else if (vexRT[Btn5D] == 1) 
+    {
+       motor[armTop] = -127;
+       motor[armBottom]= 127;
+    }
+    else
+    {
+    motor[armTop] = 0;
+    motor[armBottom] = 0;
+    }
+
+    if(vexRT[Btn6U] == 1) 
+    {
+    	motor[belt] = 127; 
+    }
+    else if(vexRT[Btn6D] == 1) 
+    {
+       motor[belt] = -127;
+    }
+    else 
+    {
+    	motor [belt]= 0;
+    }
+    
+    if(vexRT[Btn7L] == 1) //If the top bumper on the right side is pressed
+    {
+    	motor[hDrive] = 127; //raise the arm
+    }
+    else if(vexRT[Btn7R] == 1) //If the bottom bumper on the right side is pressed
+    {
+       motor[hDrive] = -127;
+    }
+    else //If neither bumper on the right side is pressed
+    {
+    	motor [hDrive]= 0;
+    }
+
+	}
+}
